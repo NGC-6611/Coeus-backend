@@ -1,0 +1,108 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+1. BUILD/OUTPUT ARTIFACTS
+
+Standard directories for compiled code and bundled output
+
+/target/
+/build/
+!/src/main//build/
+!/src/test//build/
+
+Packaged archives
+
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.class
+
+Temporary and log files
+
+*.log
+*.bak
+tmp/
+temp/
+
+2. GRADLE
+
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
+
+3. IDE: NetBeans (Your Current IDE)
+
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+4. IDE: IntelliJ IDEA
+
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!/src/main//out/
+!/src/test//out/
+
+5. IDE: Eclipse/STS
+
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!/src/main//bin/
+!/src/test//bin/
+
+6. IDE: VS Code
+
+.vscode/
+
+7. OS/ENVIRONMENT
+
+.DS_Store
+Thumbs.db
+HELP.md
