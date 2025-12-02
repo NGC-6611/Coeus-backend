@@ -1,0 +1,39 @@
+package com.gameroom.backend.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+
+import java.util.Map;
+
+@Controller
+public class WaitingRoomController {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    // 1. Player Joins the Waiting Room
+    @MessageMapping("/lobby/{roomId}/join")
+    public void joinRoom(@DestinationVariable String roomId, @Payload Map<String, String> playerPayload) {
+        String username = playerPayload.get("username");
+        
+        // Logic to add player to a list in your database/memory...
+        
+        // BROADCAST: Tell everyone in this room a new bubble needs to pop in
+        messagingTemplate.convertAndSend("/topic/lobby/" + roomId, 
+            Map.of("type", "PLAYER_JOINED", "username", username)
+        );
+    }
+
+    // 2. Admin Starts the Game
+    @MessageMapping("/lobby/{roomId}/start")
+    public void startGame(@DestinationVariable String roomId) {
+        // BROADCAST: Tell everyone to switch screens
+        messagingTemplate.convertAndSend("/topic/lobby/" + roomId, 
+            Map.of("type", "GAME_START")
+        );
+    }
+}
