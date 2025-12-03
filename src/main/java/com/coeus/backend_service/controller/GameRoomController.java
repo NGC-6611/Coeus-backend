@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST Controller for GameRoom management (creating and joining).
+ * REST Controller for GameRoom management (creating, joining, and polling).
  */
 @RestController
 @RequestMapping("/api/rooms") // Base URL: http://localhost:8080/api/rooms
@@ -33,7 +33,7 @@ public class GameRoomController {
     /**
      * Endpoint to create a new game room.
      * Requires the creator's user ID.
-     * POST http://localhost:8080/api/rooms/create
+     * POST http://localhost:8080/api/rooms/create/{userId}
      */
     @PostMapping("/create/{userId}")
     public ResponseEntity<GameRoom> createRoom(@PathVariable String userId) {
@@ -60,6 +60,19 @@ public class GameRoomController {
     }
 
     /**
+     * Endpoint to retrieve the details of a specific room.
+     * Useful for polling the waiting room to see new players join.
+     * GET http://localhost:8080/api/rooms/{roomCode}
+     */
+    @GetMapping("/{roomCode}")
+    public ResponseEntity<GameRoom> getRoomDetails(@PathVariable String roomCode) {
+        // Note: Ensure your GameRoomService has a getRoomByCode(String code) method
+        Optional<GameRoom> room = roomService.getRoomByCode(roomCode); 
+        return room.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
      * Endpoint to list all active rooms (for the lobby view).
      * GET http://localhost:8080/api/rooms
      */
@@ -69,8 +82,9 @@ public class GameRoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK); // 200 OK
     }
     
+    // --- DTOs ---
+
     // Simple DTO (Data Transfer Object) for the join request body
-    // This is defined inside the controller for simplicity but could be a separate class
     public static class GameRoomJoinRequest {
         private String roomCode;
         private String userId;
